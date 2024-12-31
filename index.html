@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc Mừng Năm Mới 2025</title>
+    <!-- Thư viện ngoại vi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Montserrat", sans-serif;
+            overflow: hidden;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Video nền */
+        video#background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            display: none;
+            /* Ẩn video cho đến khi hộp quà được mở */
+        }
+
+        /* Dòng chữ ở trung tâm */
+        .center-text {
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 3rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            display: none;
+            /* Ẩn lời chúc cho đến khi hộp quà được mở */
+            z-index: 5;
+            min-height: 200px;
+        }
+
+        /* Lớp overlay đen */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Hộp quà */
+        .gift-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: #ff5733;
+            border-radius: 10px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gift-box:hover {
+            background-color: #ff6f3f;
+        }
+
+        /* Ruy băng ngang và dọc */
+        .gift-box::before,
+        .gift-box::after {
+            content: "";
+            position: absolute;
+            background-color: #ffd700;
+        }
+
+        .gift-box::before {
+            width: 20px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .gift-box::after {
+            width: 100%;
+            height: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Nơ trên hộp quà */
+        .ribbon {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background-color: #ffd700;
+            border-radius: 5px;
+        }
+
+        .ribbon::before,
+        .ribbon::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ffd700;
+            border-radius: 50%;
+        }
+
+        .ribbon::before {
+            top: -10px;
+            left: -10px;
+        }
+
+        .ribbon::after {
+            top: -10px;
+            right: -10px;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(0, -20px, 0);
+            }
+        }
+
+        .center-text h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            line-height: 1.2;
+            /* Căn chỉnh khoảng cách giữa các dòng */
+            display: inline-block;
+            vertical-align: middle;
+            /* Đảm bảo các ký tự số không bị lệch */
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-text p {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            line-height: 1.5;
+            /* Điều chỉnh khoảng cách dòng hợp lý */
+            text-align: center;
+            /* Căn giữa toàn bộ nội dung */
+            word-wrap: break-word;
+            /* Đảm bảo chữ không tràn ra ngoài */
+        }
+
+
+        .flip-container {
+            display: inline-block;
+            perspective: 1000px;
+            /* Tạo hiệu ứng 3D */
+            width: 0.6em;
+            /* Giữ kích thước nhỏ gọn */
+            height: 1em;
+            margin-left: 0.05em;
+            /* Khoảng cách nhỏ giữa chữ và số */
+        }
+
+        .flip-card {
+            position: relative;
+            width: 100%;
+            /* Chiều rộng phù hợp container */
+            height: 100%;
+            /* Chiều cao phù hợp container */
+            transform-style: preserve-3d;
+            transform-origin: center center;
+            /* Lật từ chính giữa */
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .flip-card.flipped {
+            transform: rotateX(-180deg);
+            /* Hiệu ứng lật */
+        }
+
+        .flip-card .front,
+        .flip-card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: inherit;
+            /* Giữ kích thước chữ đồng nhất với dòng */
+            font-weight: bold;
+            color: white;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mặt trước */
+        .flip-card .front {
+            transform: rotateX(0);
+            /* Hiện số 4 */
+        }
+
+        /* Mặt sau */
+        .flip-card .back {
+            transform: rotateX(180deg);
+            /* Số 5 ẩn phía sau */
+        }
+
+
+        /* Container trái tim */
+        #heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* Không cho người dùng tương tác */
+            z-index: 10;
+            overflow: hidden;
+            /* Giữ trái tim trong khu vực lời chúc */
+        }
+
+        /* Trái tim */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ff6f91 50%, #ff3366 100%);
+            /* Gradient ngọt ngào */
+            transform: rotate(-45deg);
+            animation: float 3s ease-in-out infinite, fade 3s ease-in-out forwards;
+        }
+
+        /* Tạo hình trái tim */
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+
+        /* Hiệu ứng bay */
+        @keyframes float {
+            0% {
+                transform: translateY(50px) rotate(-45deg);
+            }
+
+            50% {
+                transform: translateY(-50px) rotate(-45deg);
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(-45deg);
+            }
+        }
+
+        /* Hiệu ứng mờ dần */
+        @keyframes fade {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="heart-container"></div>
+
+    <!-- Video nền -->
+    <video id="background-video" autoplay loop muted>
+        <source src="assets/fireworks.mp4" type="video/mp4" />
+        Trình duyệt của bạn không hỗ trợ video.
+    </video>
+
+    <div id="center-text" class="center-text">
+        <h1>
+            Chúc Mừng Năm Mới 202<span class="flip-container">
+                <div id="flip-card" class="flip-card">
+                    <div class="front">4</div>
+                    <div class="back">5</div>
+                </div>
+            </span>
+        </h1>
+        <p id="typed-text"></p>
+        <div id="heart-container"></div>
+    </div>
+
+
+    <!-- Overlay với hộp quà -->
+    <div class="overlay" id="overlay">
+        <div class="gift-box" onclick="openGift()">
+            <div class="ribbon"></div>
+        </div>
+    </div>
+
+    <script>
+        function openGift() {
+            console.log("Gift opened"); // Kiểm tra sự kiện được kích hoạt
+
+            // Ẩn overlay
+            const overlay = document.getElementById("overlay");
+            if (overlay) {
+                overlay.style.display = "none";
+                console.log("Overlay hidden");
+            } else {
+                console.error("Không tìm thấy overlay");
+            }
+
+            // Hiển thị video và bật âm thanh
+            const video = document.getElementById("background-video");
+            if (video) {
+                video.style.display = "block";
+                video.muted = false; // Bỏ muted
+                video.play();
+                console.log("Video played");
+            } else {
+                console.error("Không tìm thấy video");
+            }
+
+            // Hiển thị lời chúc
+            const centerText = document.getElementById("center-text");
+            if (centerText) {
+                centerText.style.display = "block";
+                console.log("Center text shown");
+            } else {
+                console.error("Không tìm thấy center-text");
+            }
+
+            // Kích hoạt hiệu ứng lật số
+            setTimeout(() => {
+                const flipCard = document.getElementById("flip-card");
+                if (flipCard) {
+                    flipCard.classList.add("flipped"); // Thêm lớp để lật số
+                    console.log("Flip card activated");
+                } else {
+                    console.error("Không tìm thấy flip-card");
+                }
+            }, 3000); // Lật sau 3 giây
+
+            // Hiển thị hiệu ứng Typed.js sau khi lật số
+            setTimeout(() => {
+                new Typed("#typed-text", {
+                    strings: [
+                        "Ngày đầu tiên của năm 2025!",
+                        "Tớ có vài lời gửi cậu",
+                        "Chúc cho những điều tốt đẹp sẽ đến với chúng ta vào năm mới!",
+                        "Nếu như hiệu ứng đèn kéo quân có thật, tớ mong những ngày tháng sau này, tất cả những việc chúng ta làm sẽ được chiếu sáng bởi ánh sáng của niềm vui và sự hạnh phúc!",
+                    ],
+                    typeSpeed: 20, // Tốc độ gõ
+                    backSpeed: 30, // Tốc độ xóa
+                    backDelay: 2000, // Giữ chữ lại 2 giây trước khi xóa
+                    loop: false, // Hiệu ứng gõ lặp lại
+                    onComplete: function () {
+                        console.log("Typed.js completed");
+                        startHeartAnimation(); // Bắt đầu hiệu ứng trái tim
+                    },
+                });
+                console.log("Typed.js activated");
+            }, 1000); // Kích hoạt Typed.js sau khi lật số
+
+        }
+
+        // Tạo trái tim bay
+        function startHeartAnimation() {
+            const heartContainer = document.getElementById("heart-container");
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+
+                // Đặt vị trí ngẫu nhiên trong vùng lời chúc
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.top = Math.random() * 100 + "%";
+
+                heart.style.animationDuration = Math.random() * 2 + 2 + "s"; // Thời gian bay ngẫu nhiên
+                heartContainer.appendChild(heart);
+
+                // Loại bỏ trái tim sau khi hoàn thành
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000); // Thời gian tồn tại của trái tim
+            }, 200); // Tạo trái tim mới mỗi 200ms
+        }
+
+    </script>
+</body>
+
+</html>
