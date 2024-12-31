@@ -34,22 +34,6 @@
             /* Ẩn video cho đến khi hộp quà được mở */
         }
 
-        /* Dòng chữ ở trung tâm */
-        .center-text {
-            text-align: center;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-            font-size: 3rem;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-            display: none;
-            /* Ẩn lời chúc cho đến khi hộp quà được mở */
-            z-index: 5;
-            min-height: 200px;
-        }
 
         /* Lớp overlay đen */
         .overlay {
@@ -149,29 +133,52 @@
             }
         }
 
-        .center-text h1 {
-            font-size: 2.8rem;
-            margin: 0;
-            line-height: 1.2;
-            /* Căn chỉnh khoảng cách giữa các dòng */
-            display: inline-block;
-            vertical-align: middle;
-            /* Đảm bảo các ký tự số không bị lệch */
+        .center-text {
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2.5vw;
+            /* Dùng đơn vị vw để kích thước phụ thuộc vào chiều rộng màn hình */
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            display: none;
+            /* Ẩn lời chúc cho đến khi hộp quà được mở */
+            z-index: 5;
+            max-width: 90%;
+            /* Giới hạn chiều rộng tối đa để chữ không tràn */
+            word-wrap: break-word;
+            /* Đảm bảo chữ xuống dòng khi cần */
+            min-height: 200px;
         }
 
+        .center-text h1 {
+            font-size: 3vw;
+            /* Tỉ lệ font chữ h1 */
+            margin: 0;
+            line-height: 1.2;
+            gap: 0.2em;
+            /* Khoảng cách giữa các phần tử */
+            white-space: nowrap;
+            /* Ngăn chữ xuống dòng */
+            /* Điều chỉnh khoảng cách giữa các dòng */
+
+        }
+
+
+
         .center-text p {
-            font-size: 1.5rem;
+            font-size: 1.5vw;
+            /* Sử dụng vw để đảm bảo tỷ lệ linh hoạt */
             margin-top: 20px;
             line-height: 1.5;
             /* Điều chỉnh khoảng cách dòng hợp lý */
             text-align: center;
-            /* Căn giữa toàn bộ nội dung */
+            /* Căn giữa nội dung */
             word-wrap: break-word;
             /* Đảm bảo chữ không tràn ra ngoài */
+            /* Đảm bảo đoạn văn không tràn màn hình */
         }
 
 
@@ -179,10 +186,9 @@
             display: inline-block;
             perspective: 1000px;
             /* Tạo hiệu ứng 3D */
-            width: 0.6em;
-            /* Giữ kích thước nhỏ gọn */
-            height: 1em;
-            margin-left: 0.05em;
+            margin-left: 0.08em;
+            margin-bottom: 0.34em;
+
             /* Khoảng cách nhỏ giữa chữ và số */
         }
 
@@ -302,6 +308,92 @@
                 opacity: 0;
             }
         }
+
+        /* Media Query cho màn hình nhỏ hơn 768px (Tablet và Mobile) */
+        @media (max-width: 768px) {
+            .center-text {
+                font-size: 4vw;
+                /* Tăng kích thước chữ để dễ đọc hơn */
+            }
+
+            .center-text h1 {
+                font-size: 1.8em;
+            }
+
+            .center-text p {
+                font-size: 2vw;
+                /* Đảm bảo chữ đoạn văn vẫn hiển thị tốt */
+            }
+
+            .gift-box {
+                width: 120px;
+                /* Thu nhỏ hộp quà */
+                height: 120px;
+            }
+
+            .gift-box::before {
+                width: 15px;
+                /* Điều chỉnh ruy băng */
+            }
+
+            .gift-box::after {
+                height: 15px;
+            }
+
+            .ribbon {
+                width: 50px;
+                /* Thu nhỏ kích thước nơ */
+                height: 15px;
+            }
+
+            video#background-video {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                /* Scale video theo chiều rộng của màn hình */
+                height: 100vh;
+                /* Scale video theo chiều cao của màn hình */
+                object-fit: cover;
+                /* Giữ tỷ lệ video và lấp đầy màn hình */
+                z-index: -1;
+                display: none;
+                /* Ẩn video cho đến khi hộp quà được mở */
+                transition: all 0.5s ease;
+                /* Thêm hiệu ứng mượt khi thay đổi */
+            }
+        }
+
+        /* Media Query cho màn hình nhỏ hơn */
+        @media (max-width: 768px) {
+            .gift-box {
+                width: 20vw;
+                max-width: 120px;
+                height: 20vw;
+                max-height: 120px;
+            }
+
+            .center-text h1 {
+                font-size: 6vw;
+            }
+
+            .center-text p {
+                font-size: 3.5vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gift-box {
+                width: 25vw;
+                max-width: 100px;
+                height: 25vw;
+                max-height: 100px;
+            }
+
+            .center-text p {
+                font-size: 4vw;
+            }
+        }
     </style>
 </head>
 
@@ -316,15 +408,17 @@
 
     <div id="center-text" class="center-text">
         <h1>
-            Chúc Mừng Năm Mới 202<span class="flip-container">
+            Chúc Mừng Năm Mới 202
+            <span class="flip-container">
                 <div id="flip-card" class="flip-card">
                     <div class="front">4</div>
                     <div class="back">5</div>
                 </div>
             </span>
         </h1>
-        <p id="typed-text"></p>
         <div id="heart-container"></div>
+
+        <p id="typed-text"></p>
     </div>
 
 
