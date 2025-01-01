@@ -412,6 +412,26 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const overlay = document.getElementById("overlay");
+            const video = document.getElementById("background-video");
+            const giftBox = document.querySelector(".gift-box");
+
+            // Đảm bảo video sẵn sàng
+            video.addEventListener("canplaythrough", function () {
+                console.log("Video is ready to play!");
+                // Bật sự kiện nhấp vào hộp quà khi video đã sẵn sàng
+                giftBox.addEventListener("click", openGift);
+                // Hiển thị overlay
+                overlay.style.display = "flex";
+            });
+
+            // Nếu video không tải được (dự phòng)
+            video.addEventListener("error", function () {
+                console.error("Video failed to load!");
+            });
+        });
+
         function openGift() {
             console.log("Gift opened"); // Kiểm tra sự kiện được kích hoạt
 
@@ -462,7 +482,7 @@
                         "Ngày đầu tiên của năm 2025!",
                         "Tớ có vài lời gửi cậu",
                         "Chúc cho những điều tốt đẹp sẽ đến với chúng ta vào năm mới!",
-                        "Nếu như hiệu ứng đèn kéo quân có thật, tớ mong những ngày tháng sau này, tất cả những việc chúng ta làm sẽ được chiếu sáng bởi ánh sáng của niềm vui và sự hạnh phúc!",
+                        "Nếu như hiện tượng đèn kéo quân có thật, tớ mong những ngày tháng sau này, tất cả những việc chúng ta làm sẽ được chiếu sáng bởi ánh sáng của niềm vui và sự hạnh phúc!",
                     ],
                     typeSpeed: 20, // Tốc độ gõ
                     backSpeed: 30, // Tốc độ xóa
@@ -475,7 +495,6 @@
                 });
                 console.log("Typed.js activated");
             }, 1000); // Kích hoạt Typed.js sau khi lật số
-
         }
 
         // Tạo trái tim bay
