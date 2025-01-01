@@ -417,106 +417,91 @@
             const video = document.getElementById("background-video");
             const giftBox = document.querySelector(".gift-box");
 
+            let isVideoReady = false; // Trạng thái kiểm tra video đã sẵn sàng chưa
+            let isGiftOpened = false; // Trạng thái kiểm tra hộp quà đã mở chưa
+
             // Đảm bảo video sẵn sàng
             video.addEventListener("canplaythrough", function () {
                 console.log("Video is ready to play!");
-                // Bật sự kiện nhấp vào hộp quà khi video đã sẵn sàng
-                giftBox.addEventListener("click", openGift);
-                // Hiển thị overlay
+                isVideoReady = true; // Đánh dấu video đã sẵn sàng
+
+                // Hiển thị overlay và bật sự kiện cho hộp quà
                 overlay.style.display = "flex";
+                giftBox.style.cursor = "pointer";
             });
 
-            // Nếu video không tải được (dự phòng)
-            video.addEventListener("error", function () {
-                console.error("Video failed to load!");
+            // Xử lý khi nhấp vào hộp quà
+            giftBox.addEventListener("click", function () {
+                if (isVideoReady && !isGiftOpened) {
+                    isGiftOpened = true; // Đánh dấu hộp quà đã được mở
+                    openGift();
+                } else if (!isVideoReady) {
+                    console.warn("Video is not ready yet!");
+                }
             });
-        });
 
-        function openGift() {
-            console.log("Gift opened"); // Kiểm tra sự kiện được kích hoạt
+            function openGift() {
+                console.log("Gift opened");
 
-            // Ẩn overlay
-            const overlay = document.getElementById("overlay");
-            if (overlay) {
+                // Ẩn overlay
                 overlay.style.display = "none";
-                console.log("Overlay hidden");
-            } else {
-                console.error("Không tìm thấy overlay");
-            }
 
-            // Hiển thị video và bật âm thanh
-            const video = document.getElementById("background-video");
-            if (video) {
+                // Hiển thị video và bật âm thanh
                 video.style.display = "block";
                 video.muted = false; // Bỏ muted
                 video.play();
-                console.log("Video played");
-            } else {
-                console.error("Không tìm thấy video");
-            }
 
-            // Hiển thị lời chúc
-            const centerText = document.getElementById("center-text");
-            if (centerText) {
+                // Hiển thị lời chúc
+                const centerText = document.getElementById("center-text");
                 centerText.style.display = "block";
-                console.log("Center text shown");
-            } else {
-                console.error("Không tìm thấy center-text");
+
+                // Kích hoạt hiệu ứng lật số
+                setTimeout(() => {
+                    const flipCard = document.getElementById("flip-card");
+                    flipCard.classList.add("flipped");
+                }, 3000);
+
+                // Hiển thị hiệu ứng Typed.js sau khi lật số
+                setTimeout(() => {
+                    new Typed("#typed-text", {
+                        strings: [
+                            "Ngày đầu tiên của năm 2025!",
+                            "Tớ có vài lời gửi cậu",
+                            "Chúc cho những điều tốt đẹp sẽ đến với chúng ta vào năm mới!",
+                            "Nếu như hiện tượng đèn kéo quân có thật, tớ mong những ngày tháng sau này, tất cả những việc chúng ta làm sẽ được chiếu sáng bởi ánh sáng của niềm vui và sự hạnh phúc!",
+                        ],
+                        typeSpeed: 20,
+                        backSpeed: 30,
+                        backDelay: 2000,
+                        loop: false,
+                        onComplete: function () {
+                            startHeartAnimation();
+                        },
+                    });
+                }, 1000);
             }
 
-            // Kích hoạt hiệu ứng lật số
-            setTimeout(() => {
-                const flipCard = document.getElementById("flip-card");
-                if (flipCard) {
-                    flipCard.classList.add("flipped"); // Thêm lớp để lật số
-                    console.log("Flip card activated");
-                } else {
-                    console.error("Không tìm thấy flip-card");
-                }
-            }, 3000); // Lật sau 3 giây
+            // Tạo trái tim bay
+            function startHeartAnimation() {
+                const heartContainer = document.getElementById("heart-container");
+                setInterval(() => {
+                    const heart = document.createElement("div");
+                    heart.classList.add("heart");
 
-            // Hiển thị hiệu ứng Typed.js sau khi lật số
-            setTimeout(() => {
-                new Typed("#typed-text", {
-                    strings: [
-                        "Ngày đầu tiên của năm 2025!",
-                        "Tớ có vài lời gửi cậu",
-                        "Chúc cho những điều tốt đẹp sẽ đến với chúng ta vào năm mới!",
-                        "Nếu như hiện tượng đèn kéo quân có thật, tớ mong những ngày tháng sau này, tất cả những việc cậu làm sẽ được chiếu sáng bởi ánh sáng của niềm vui và sự hạnh phúc!",
-                    ],
-                    typeSpeed: 20, // Tốc độ gõ
-                    backSpeed: 30, // Tốc độ xóa
-                    backDelay: 2000, // Giữ chữ lại 2 giây trước khi xóa
-                    loop: false, // Hiệu ứng gõ lặp lại
-                    onComplete: function () {
-                        console.log("Typed.js completed");
-                        startHeartAnimation(); // Bắt đầu hiệu ứng trái tim
-                    },
-                });
-                console.log("Typed.js activated");
-            }, 1000); // Kích hoạt Typed.js sau khi lật số
-        }
+                    // Đặt vị trí ngẫu nhiên trong vùng lời chúc
+                    heart.style.left = Math.random() * 100 + "%";
+                    heart.style.top = Math.random() * 100 + "%";
 
-        // Tạo trái tim bay
-        function startHeartAnimation() {
-            const heartContainer = document.getElementById("heart-container");
-            setInterval(() => {
-                const heart = document.createElement("div");
-                heart.classList.add("heart");
+                    heart.style.animationDuration = Math.random() * 2 + 2 + "s";
+                    heartContainer.appendChild(heart);
 
-                // Đặt vị trí ngẫu nhiên trong vùng lời chúc
-                heart.style.left = Math.random() * 100 + "%";
-                heart.style.top = Math.random() * 100 + "%";
-
-                heart.style.animationDuration = Math.random() * 2 + 2 + "s"; // Thời gian bay ngẫu nhiên
-                heartContainer.appendChild(heart);
-
-                // Loại bỏ trái tim sau khi hoàn thành
-                setTimeout(() => {
-                    heart.remove();
-                }, 3000); // Thời gian tồn tại của trái tim
-            }, 200); // Tạo trái tim mới mỗi 200ms
-        }
+                    // Loại bỏ trái tim sau khi hoàn thành
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, 200);
+            }
+        });
 
     </script>
 </body>
